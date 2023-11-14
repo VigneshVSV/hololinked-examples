@@ -5,9 +5,8 @@ Contains set of examples for `daqpy` repository, sorted into folders:
 | Folder   | Description |
 | -------- | ----------- |
 | ocean_optics_spectrometer | spectrometer from Ocean Optics, Inc. (https://photos.labwrench.com/equipmentManuals/9443-3596.pdff) - example of spectrum/array data  |
-<!--- 
 | serial_utility | utility for devices employing serial port communication |
-| gentec_maestro | laser pulse energy meter from Gentec Electro-Optics (https://www.gentec-eo.com/products/maestro) - example for time series data |
+<!--- | gentec_maestro | laser pulse energy meter from Gentec Electro-Optics (https://www.gentec-eo.com/products/maestro) - example for time series data |
 --->
 
 <br/>
