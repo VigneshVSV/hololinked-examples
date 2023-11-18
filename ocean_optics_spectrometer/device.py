@@ -2,11 +2,11 @@ import threading
 import datetime
 import numpy
 from enum import Enum
+from seabreeze.spectrometers import Spectrometer
 
-from daqpy.server import RemoteObject, StateMachine, put, post, get, Event, patch
+from daqpy.server import RemoteObject, StateMachine, put, post, get, Event, patch, remote_method
 from daqpy.server.remote_parameters import (String, Number, Selector, ClassSelector, Integer, 
                         Boolean, TypedList, Selector)
-from seabreeze.spectrometers import Spectrometer
 
 from .data import Intensity
 
@@ -35,29 +35,29 @@ class OceanOpticsSpectrometer(RemoteObject):
                 doc="number of points in wavelength")
     
     last_intensity = ClassSelector(default=None, allow_None=True, class_=Intensity, 
-            URL_path='/intensity/last', doc="last measurement intensity (in arbitrary units)") # type: ignore
+            URL_path='/intensity', doc="last measurement intensity (in arbitrary units)") # type: ignore
     
     integration_time_millisec = Number(default=1000, bounds=(0.01, None), crop_to_bounds=True, 
-                            URL_path='/acquisition/settings/integration-time/milli-seconds', 
+                            URL_path='/integration-time/milli-seconds', 
                             doc="integration time of measurement in milliseconds")
     
     integration_time_microsec = Number(default=1000, bounds=(0.01, None), crop_to_bounds=True, 
-                            URL_path='/acquisition/settings/integration-time/micro-seconds', 
+                            URL_path='/integration-time/micro-seconds', 
                             doc="integration time of measurement in microseconds")
     
     trigger_mode = Selector(objects=[0,1,2,3,4], default=1, 
-                        URL_path='acquisition/settings/trigger-mode', 
+                        URL_path='/trigger-mode', 
                         doc="""0 = normal/free running, 1 = Software trigger, 2 = Ext. Trigger Level,
                          3 = Ext. Trigger Synchro/ Shutter mode, 4 = Ext. Trigger Edge""")
     
     background_correction = Selector(default=['AUTO', 'CUSTOM', None], 
-                        URL_path='/acquisition/settings/background-correction',
+                        URL_path='/background-correction',
                         doc="set True for Seabreeze internal black level correction")
     
-    nonlinearity_correction = Boolean(default=False, URL_path='/acquisition/settings/nonlinearity-correction')
+    nonlinearity_correction = Boolean(default=False, URL_path='/nonlinearity-correction')
     
     custom_background_intensity = TypedList(item_type=(float, int), 
-                        URL_path='/background-intensity/user-definition')
+                        URL_path='/background-correction/user-defined-intensity')
 
     
     def __init__(self, serial_number = None, **kwargs):
@@ -108,7 +108,7 @@ class OceanOpticsSpectrometer(RemoteObject):
     def get_integration_time_ms(self):
         return self._integration_time_ms
     
-    @patch('/acquisition/settings/integration-time/bounds')
+    @patch('/integration-time/bounds')
     def set_intregation_time_bounds(self, value):
         if not isinstance(value, list) and len(value) == 2:
             raise TypeError("Specify integration time bounds as a list of two values [lower bound, higher bound]")
@@ -119,14 +119,20 @@ class OceanOpticsSpectrometer(RemoteObject):
         self.parameters["integration_time"].bounds = value 
 
     @get('/acquisition/settings')
-    @property 
-    def measurement_settings(self):
+    def _get_acquisition_settings(self):
         return {
             'integration_time_milliseconds' : self.integration_time_millisec,
             'trigger_mode' : self.trigger_mode,
             'background_correction' : self.background_correction,
             'non_linearity_correction' : self.nonlinearity_correction
         }
+
+    @remote_method('/acquisition/settings', http_method=['POST', 'PATCH'])
+    def _set_acquisition_settings(self, **settings):
+        assert settings.keys() in ['integration_time_millisec', 'integration_time_microsec',
+                            'background_correction', 'nonlinearity_correction'], "not all supplied values are acquisition settings"
+        for key, value in settings.items():
+            setattr(self, key, value)
     
     @post('/acquisition/start')
     def start_acquisition(self):
@@ -168,19 +174,20 @@ class OceanOpticsSpectrometer(RemoteObject):
                                                         correct_dark_counts=False,
                                                         correct_nonlinearity=self.nonlinearity_correction 
                                                     )
-                    if self.background_correction == 'CUSTOM':
-                        if self.custom_background_intensity is None:
-                            self.logger.warn('no background correction possible')
-                            self.state_machine.set_state(self.states.ALARM)
-                        else:
-                            _current_intensity = _current_intensity - self.custom_background_intensity
+                    
+                if self.background_correction == 'CUSTOM':
+                    if self.custom_background_intensity is None:
+                        self.logger.warn('no background correction possible')
+                        self.state_machine.set_state(self.states.ALARM)
+                    else:
+                        _current_intensity = _current_intensity - self.custom_background_intensity
                 
                 if self._running:
                     # To stop the acquisition in hardware trigger mode, we set running to False in stop_acquisition() 
                     # and then change the trigger mode for self.spec.intensities to unblock. This exits this 
                     # infintie loop. Therefore, to know, whether self.spec.intensities finished, whether due to trigger 
                     # mode or due to actual completion of measurement, we check again if self._running is True. 
-                    if any(_current_intensity [i] > 0 for i in range(len(_current_intensity))):   
+                    if any(_current_intensity[i] > 0 for i in range(len(_current_intensity))):   
                         self.last_intensity = Intensity(
                             value=_current_intensity, 
                             timestamp=datetime.datetime.now().strftime('%Y-%m-%dT%H:%M:%S')
@@ -190,12 +197,13 @@ class OceanOpticsSpectrometer(RemoteObject):
                         self.state_machine.current_state = self.states.MEASURING
                     else:
                         self.logger.warn('trigger delayed or no trigger or erroneous data - completely black')
+                        self.state_machine.current_state = self.states.ALARM
                 loop += 1
             except Exception as ex:
                 self.logger.error(f'error during acquisition : {str(ex)}')
                 self.state_machine.current_state = self.states.FAULT
         
-        if self.state_machine.current_state != self.states.FAULT:        
+        if self.state_machine.current_state not in [self.states.FAULT, self.states.ALARM]:        
             self.state_machine.current_state = self.states.ON
         self.logger.info("ending continuous acquisition") 
         self._running = False 
@@ -207,7 +215,7 @@ class OceanOpticsSpectrometer(RemoteObject):
         self._acquisition_thread.start()
         self.logger.info("data event will be pushed once acquisition is complete.")
 
-    @put('/fault/reset')
+    @post('/fault/reset')
     def reset_fault(self):
         self.state_machine.set_state(self.states.ON)
       
