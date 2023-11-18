@@ -15,6 +15,5 @@ To execute the instruments (if you have the hardware for those necessary), go to
 
 <!--- 
 comment: See step by step tutorials for each of the devices here : (will be filled)
-
 For ReactJS dashboards for each device, see examples here : (will be filled)
 --->
