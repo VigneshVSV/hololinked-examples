@@ -8,7 +8,7 @@ from daqpy.server import RemoteObject, StateMachine, put, post, get, Event, patc
 from daqpy.server.remote_parameters import (String, Number, Selector, ClassSelector, Integer, 
                         Boolean, TypedList, Selector)
 
-from .data import Intensity
+from data import Intensity
 
 
 
@@ -45,12 +45,12 @@ class OceanOpticsSpectrometer(RemoteObject):
                             URL_path='/integration-time/micro-seconds', 
                             doc="integration time of measurement in microseconds")
     
-    trigger_mode = Selector(objects=[0,1,2,3,4], default=1, 
+    trigger_mode = Selector(objects=[0,1,2,3,4], default=0, 
                         URL_path='/trigger-mode', 
                         doc="""0 = normal/free running, 1 = Software trigger, 2 = Ext. Trigger Level,
                          3 = Ext. Trigger Synchro/ Shutter mode, 4 = Ext. Trigger Edge""")
     
-    background_correction = Selector(default=['AUTO', 'CUSTOM', None], 
+    background_correction = Selector(objects=['AUTO', 'CUSTOM', None], default=None, allow_None=True, 
                         URL_path='/background-correction',
                         doc="set True for Seabreeze internal black level correction")
     
@@ -71,7 +71,7 @@ class OceanOpticsSpectrometer(RemoteObject):
     
     @post('/connect')
     def connect(self, trigger_mode = None, integration_time = None):
-        self.device = Spectrometer.from_serial_number(self.serial_number) 
+        self.device = Spectrometer.from_first_available()# from_serial_number(self.serial_number) 
         self.state_machine.current_state = self.states.ON
         self.wavelengths = self.device.wavelengths()
         self.model = self.device.model
@@ -79,11 +79,13 @@ class OceanOpticsSpectrometer(RemoteObject):
         if trigger_mode is not None:
             self.trigger_mode = trigger_mode
         else:
-            self.trigger_mode = self._trigger_mode
+            self.trigger_mode = self.trigger_mode
+            # Will set default value of parameter
         if integration_time is not None:
             self.integration_time = integration_time
         else:
-            self.integration_time = self._integration_time_ms
+            self.integration_time = self.integration_time_millisec
+            # Will set default value of parameter
        
     @post('/disconnect')
     def disconnect(self):
@@ -97,8 +99,11 @@ class OceanOpticsSpectrometer(RemoteObject):
         
     @trigger_mode.getter 
     def get_trigger_mode(self):
-        return self._trigger_mode
-
+        try:
+            return self._trigger_mode
+        except:
+            return self.parameters["trigger_mode"].default 
+        
     @integration_time_millisec.setter 
     def apply_integration_time_ms(self, value):
         self.device.integration_time_micros(int(value*1000))
@@ -106,8 +111,11 @@ class OceanOpticsSpectrometer(RemoteObject):
 
     @integration_time_millisec.getter 
     def get_integration_time_ms(self):
-        return self._integration_time_ms
-    
+        try:
+            return self._integration_time_ms
+        except:
+            return self.parameters["integration_time_millisec"].default 
+        
     @patch('/integration-time/bounds')
     def set_intregation_time_bounds(self, value):
         if not isinstance(value, list) and len(value) == 2:
@@ -143,6 +151,7 @@ class OceanOpticsSpectrometer(RemoteObject):
     @post('/acquisition/stop')
     def stop_acquisition(self):
         if self._acquisition_thread is not None:
+            self.logger.debug(f"stopping acquisition thread with thread-ID {self._acquisition_thread.ident}")
             self._running = False # break infinite loop
             # Reduce the measurement that will proceed in new trigger mode to 1ms
             self.device.integration_time_micros(1000)       
@@ -152,61 +161,68 @@ class OceanOpticsSpectrometer(RemoteObject):
             self._acquisition_thread = None 
             # re-apply old values
             self.trigger_mode = self.trigger_mode
-            self.integration_time = self.integration_time 
+            self.integration_time_millisec = self.integration_time_millisec 
         
     def measure(self, max_count = None):
-        self._running = True
-        self.state_machine.current_state = self.states.MEASURING
-        self.logger.info(f'starting continuous acquisition loop with trigger mode {self.trigger_mode} & integration time {self.integration_time}')
-        loop = 0
-        while self._running:
-            if max_count is not None and loop >= max_count:
-                break 
-            try:
-                # Following is a blocking command - self.spec.intensities
-                if self.background_correction == 'AUTO':
-                    _current_intensity = self.device.intensities(
-                                                        correct_dark_counts=True,
-                                                        correct_nonlinearity=self.nonlinearity_correction
-                                                    )
-                else:
-                    _current_intensity = self.device.intensities(
-                                                        correct_dark_counts=False,
-                                                        correct_nonlinearity=self.nonlinearity_correction 
-                                                    )
-                    
-                if self.background_correction == 'CUSTOM':
-                    if self.custom_background_intensity is None:
-                        self.logger.warn('no background correction possible')
-                        self.state_machine.set_state(self.states.ALARM)
+        try:
+            self._running = True
+            self.state_machine.current_state = self.states.MEASURING
+            self.logger.info(f'starting continuous acquisition loop with trigger mode {self.trigger_mode} & integration time {self.integration_time_millisec} in thread with ID {threading.get_ident()}')
+            loop = 0
+            while self._running:
+                if max_count is not None and loop >= max_count:
+                    break 
+                try:
+                    # Following is a blocking command - self.spec.intensities
+                    self.logger.debug(f'starting measurement count {loop+1}')
+                    if self.background_correction == 'AUTO':
+                        _current_intensity = self.device.intensities(
+                                                            correct_dark_counts=True,
+                                                            correct_nonlinearity=self.nonlinearity_correction
+                                                        )
                     else:
-                        _current_intensity = _current_intensity - self.custom_background_intensity
-                
-                if self._running:
-                    # To stop the acquisition in hardware trigger mode, we set running to False in stop_acquisition() 
-                    # and then change the trigger mode for self.spec.intensities to unblock. This exits this 
-                    # infintie loop. Therefore, to know, whether self.spec.intensities finished, whether due to trigger 
-                    # mode or due to actual completion of measurement, we check again if self._running is True. 
-                    if any(_current_intensity[i] > 0 for i in range(len(_current_intensity))):   
-                        self.last_intensity = Intensity(
-                            value=_current_intensity, 
-                            timestamp=datetime.datetime.now().strftime('%Y-%m-%dT%H:%M:%S')
-                        )
-                        self.logger.debug(f'measurement taken at {self.last_intensity.timestamp} - measurement count {loop}')
-                        self.data_measured_event.push(self.last_intensity)
-                        self.state_machine.current_state = self.states.MEASURING
-                    else:
-                        self.logger.warn('trigger delayed or no trigger or erroneous data - completely black')
-                        self.state_machine.current_state = self.states.ALARM
-                loop += 1
-            except Exception as ex:
-                self.logger.error(f'error during acquisition : {str(ex)}')
-                self.state_machine.current_state = self.states.FAULT
-        
-        if self.state_machine.current_state not in [self.states.FAULT, self.states.ALARM]:        
-            self.state_machine.current_state = self.states.ON
-        self.logger.info("ending continuous acquisition") 
-        self._running = False 
+                        _current_intensity = self.device.intensities(
+                                                            correct_dark_counts=False,
+                                                            correct_nonlinearity=self.nonlinearity_correction 
+                                                        )
+                        
+                    if self.background_correction == 'CUSTOM':
+                        if self.custom_background_intensity is None:
+                            self.logger.warn('no background correction possible')
+                            self.state_machine.set_state(self.states.ALARM)
+                        else:
+                            _current_intensity = _current_intensity - self.custom_background_intensity
+
+                    timestamp = datetime.datetime.now().strftime('%Y-%m-%dT%H:%M:%S')
+                    self.logger.debug(f'measurement taken at {timestamp} - measurement count {loop+1}')
+
+                    if self._running:
+                        # To stop the acquisition in hardware trigger mode, we set running to False in stop_acquisition() 
+                        # and then change the trigger mode for self.spec.intensities to unblock. This exits this 
+                        # infintie loop. Therefore, to know, whether self.spec.intensities finished, whether due to trigger 
+                        # mode or due to actual completion of measurement, we check again if self._running is True. 
+                        if any(_current_intensity[i] > 0 for i in range(len(_current_intensity))):   
+                            self.last_intensity = Intensity(
+                                value=_current_intensity, 
+                                timestamp=timestamp
+                            )
+                            self.data_measured_event.push(self.last_intensity)
+                            self.state_machine.current_state = self.states.MEASURING
+                        else:
+                            self.logger.warn('trigger delayed or no trigger or erroneous data - completely black')
+                            self.state_machine.current_state = self.states.ALARM
+                    loop += 1
+                except Exception as ex:
+                    self.logger.error(f'error during acquisition : {str(ex)}')
+                    self.state_machine.current_state = self.states.FAULT
+            
+            if self.state_machine.current_state not in [self.states.FAULT, self.states.ALARM]:        
+                self.state_machine.current_state = self.states.ON
+            self.logger.info("ending continuous acquisition") 
+            self._running = False 
+        except Exception as ex:
+            self.logger.error(f"error while starting acquisition {str(ex)}")
+            self.state_machine.current_state = self.states.FAULT
 
     @post('/acquisition/single/start')
     def start_acquisition_single(self):
