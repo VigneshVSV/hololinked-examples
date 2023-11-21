@@ -1,0 +1,29 @@
+#===========================================================================#
+#                                                                           #
+#  Copyright (C) 2006 - 2018                                                #
+#  IDS Imaging Development Systems GmbH                                     #
+#  Dimbacher Str. 6-8                                                       #
+#  D-74182 Obersulm, Germany                                                #
+#                                                                           #
+#  The information in this document is subject to change without notice     #
+#  and should not be construed as a commitment by IDS Imaging Development   #
+#  Systems GmbH. IDS Imaging Development Systems GmbH does not assume any   #
+#  responsibility for any errors that may appear in this document.          #
+#                                                                           #
+#  This document, or source code, is provided solely as an example          #
+#  of how to utilize IDS software libraries in a sample application.        #
+#  IDS Imaging Development Systems GmbH does not assume any responsibility  #
+#  for the use or reliability of any portion of this document or the        #
+#  described software.                                                      #
+#                                                                           #
+#  General permission to copy or modify, but not for profit, is hereby      #
+#  granted, provided that the above copyright notice is included and        #
+#  reference made to the fact that reproduction privileges were granted     #
+#  by IDS Imaging Development Systems GmbH.                                 #
+#                                                                           #
+#  IDS Imaging Development Systems GmbH cannot assume any responsibility    #
+#  for the use or misuse of any portion of this software for other than     #
+#  its intended diagnostic purpose in calibrating and testing IDS           #
+#  manufactured cameras and software.                                       #
+#                                                                           #
+#===========================================================================#
