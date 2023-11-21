@@ -11,7 +11,7 @@ def start_http_server():
 
     H = HTTPServer(consumers=['spectrometer/ocean-optics/USB2000-plus'], port=8083, ssl_context=ssl_context, 
                       log_level=logging.DEBUG)  
-    H.start(block=True)
+    H.start()
 
 
 if __name__ == "__main__":
