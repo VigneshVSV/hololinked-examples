@@ -5,7 +5,7 @@ from enum import Enum
 from seabreeze.spectrometers import Spectrometer
 
 from daqpy.server import RemoteObject, StateMachine, put, post, get, Event, patch, remote_method
-from daqpy.server.remote_parameters import (String, Number, Selector, ClassSelector, Integer, 
+from daqpy.server.remote_parameters import (String, Integer, Number, Selector, ClassSelector, Integer, 
                         Boolean, TypedList, Selector)
 
 from data import Intensity
@@ -37,11 +37,11 @@ class OceanOpticsSpectrometer(RemoteObject):
     last_intensity = ClassSelector(default=None, allow_None=True, class_=Intensity, 
             URL_path='/intensity', doc="last measurement intensity (in arbitrary units)") # type: ignore
     
-    integration_time_millisec = Number(default=1000, bounds=(0.01, None), crop_to_bounds=True, 
+    integration_time_millisec = Number(default=1000, bounds=(0.001, None), crop_to_bounds=True, 
                             URL_path='/integration-time/milli-seconds', 
                             doc="integration time of measurement in milliseconds")
     
-    integration_time_microsec = Number(default=1000, bounds=(0.01, None), crop_to_bounds=True, 
+    integration_time_microsec = Integer(default=1000000, bounds=(1, None), crop_to_bounds=True, 
                             URL_path='/integration-time/micro-seconds', 
                             doc="integration time of measurement in microseconds")
     
@@ -107,7 +107,8 @@ class OceanOpticsSpectrometer(RemoteObject):
     @integration_time_millisec.setter 
     def apply_integration_time_ms(self, value):
         self.device.integration_time_micros(int(value*1000))
-        self._integration_time_ms = value
+        self._integration_time_ms = int(value) 
+        self._integration_time_us = int(value)*1000
 
     @integration_time_millisec.getter 
     def get_integration_time_ms(self):
@@ -115,6 +116,19 @@ class OceanOpticsSpectrometer(RemoteObject):
             return self._integration_time_ms
         except:
             return self.parameters["integration_time_millisec"].default 
+    
+    @integration_time_microsec.setter
+    def apply_integration_time_us(self, value):
+        self.device.integration_time_micros(value)
+        self._integration_time_ms = value/1000
+        self._integration_time_us = value
+
+    @integration_time_microsec.getter
+    def get_integration_time_us(self):
+        try:
+            return self._integration_time_us
+        except:
+            return self.parameters["integration_time_microsec"].default 
         
     @patch('/integration-time/bounds')
     def set_intregation_time_bounds(self, value):
