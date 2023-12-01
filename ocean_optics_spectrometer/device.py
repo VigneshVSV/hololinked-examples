@@ -4,8 +4,8 @@ import numpy
 from enum import Enum
 from seabreeze.spectrometers import Spectrometer
 
-from daqpy.server import RemoteObject, StateMachine, put, post, get, Event, patch, remote_method
-from daqpy.server.remote_parameters import (String, Integer, Number, Selector, ClassSelector, Integer, 
+from hololinked.server import RemoteObject, StateMachine, put, post, get, Event, patch, remote_method
+from hololinked.server.remote_parameters import (String, Integer, Number, Selector, ClassSelector, Integer, 
                         Boolean, TypedList, Selector)
 
 from data import Intensity

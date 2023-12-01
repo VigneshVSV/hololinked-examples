@@ -1,6 +1,6 @@
-# DAQPY EXAMPLES
+# hololinked EXAMPLES
 
-Contains set of examples for `daqpy` repository, sorted into folders:
+Contains set of examples for `hololinked` repository, sorted into folders:
 
 | Folder   | Description |
 | -------- | ----------- |

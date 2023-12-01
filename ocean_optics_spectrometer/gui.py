@@ -1,5 +1,5 @@
 import plotly.graph_objects as go
-from daqpy.server.remote_parameter import PlotlyFigure
+from hololinked.server.remote_parameter import PlotlyFigure
 
 
 spectrum_plot : go.Figure = PlotlyFigure(

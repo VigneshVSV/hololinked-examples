@@ -8,9 +8,9 @@ import cv2
 import sys
 from enum import Enum
 
-from daqpy.server import RemoteObject, RemoteParameter, post, StateMachine, Event
-from daqpy.server.remote_parameters import Integer, String, Selector, Number
-from daqpy.server.remote_parameter import Image
+from hololinked.server import RemoteObject, RemoteParameter, post, StateMachine, Event
+from hololinked.server.remote_parameters import Integer, String, Selector, Number
+from hololinked.server.remote_parameter import Image
 
 from .exceptions import ErrorCodes, UEyeError
 from .data import ColorModes, DisplayModes

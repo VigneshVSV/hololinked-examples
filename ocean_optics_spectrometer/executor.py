@@ -1,7 +1,7 @@
 import ssl 
 import logging
 from multiprocessing import Process
-from daqpy.server import HTTPServer
+from hololinked.server import HTTPServer
 from device import OceanOpticsSpectrometer
 
 def start_http_server():

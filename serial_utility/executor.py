@@ -1,6 +1,6 @@
 import ssl
 import logging
-from daqpy.server import HTTPServer
+from hololinked.server import HTTPServer
 from serial_utility import SerialCommunication
 
 

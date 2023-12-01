@@ -1,4 +1,4 @@
-name: daqpy-examples
+name: hololinked-examples
 channels:
   - anaconda
   - conda-forge

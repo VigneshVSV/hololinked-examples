@@ -2,8 +2,8 @@ import logging
 import serial as PS
 from enum import Enum
 from threading import RLock
-from daqpy.server import RemoteObject, StateMachine, post, HTTPServer, remote_method
-from daqpy.server.remote_parameters import Number, Selector, String, Selector, Boolean
+from hololinked.server import RemoteObject, StateMachine, post, HTTPServer, remote_method
+from hololinked.server.remote_parameters import Number, Selector, String, Selector, Boolean
 
 
 
