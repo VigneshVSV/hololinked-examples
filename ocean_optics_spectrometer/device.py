@@ -28,7 +28,7 @@ class OceanOpticsSpectrometer(RemoteObject):
     model = String(default=None, URL_path='/model', allow_None=True, 
                             doc="model of the connected spectrometer")
     
-    wavelengths = ClassSelector(default=None, allow_None=True, class_=(numpy.ndarray, list), 
+    wavelengths = ClassSelector(default=None, allow_None=True, class_=(list,), 
             URL_path='/supported-wavelengths', doc="wavelength bins of measurement")
 
     pixel_count = Integer(default=None, allow_None=True, URL_path='/pixel-count', 
@@ -66,14 +66,14 @@ class OceanOpticsSpectrometer(RemoteObject):
             self.connect()
         self._acquisition_thread = None 
         self._running = False
-        self.data_measured_event = Event('data-measured')
+        self.data_measured_event = Event(name='intensity-measurement-event', URL_path='/intensity/measurement-event')
         self.logger.debug(f"opened device with serial number {self.serial_number} with model {self.model}")
     
     @post('/connect')
     def connect(self, trigger_mode = None, integration_time = None):
         self.device = Spectrometer.from_first_available()# from_serial_number(self.serial_number) 
         self.state_machine.current_state = self.states.ON
-        self.wavelengths = self.device.wavelengths()
+        self.wavelengths = self.device.wavelengths().tolist()
         self.model = self.device.model
         self.pixel_count = self.device.pixels
         if trigger_mode is not None:
