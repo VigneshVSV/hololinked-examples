@@ -61,7 +61,7 @@ class OceanOpticsSpectrometer(RemoteObject):
 
     
     def __init__(self, serial_number = None, **kwargs):
-        super().__init__(serial_number=serial_number)
+        super().__init__(serial_number=serial_number, **kwargs)
         if serial_number is not None:
             self.connect()
         self._acquisition_thread = None 
@@ -86,6 +86,7 @@ class OceanOpticsSpectrometer(RemoteObject):
         else:
             self.integration_time = self.integration_time_millisec
             # Will set default value of parameter
+        self.logger.debug(f"opened device with serial number {self.serial_number} with model {self.model}")
        
     @post('/disconnect')
     def disconnect(self):
