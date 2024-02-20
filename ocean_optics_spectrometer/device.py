@@ -66,9 +66,8 @@ class OceanOpticsSpectrometer(RemoteObject):
             self.connect()
         self._acquisition_thread = None 
         self._running = False
-        self.data_measured_event = Event(name='intensity-measurement-event', URL_path='/intensity/measurement-event')
-        self.logger.debug(f"opened device with serial number {self.serial_number} with model {self.model}")
-    
+        self.intensity_measurement_event = Event(name='intensity-measurement-event', URL_path='/intensity/measurement-event')
+     
     @post('/connect')
     def connect(self, trigger_mode = None, integration_time = None):
         self.device = Spectrometer.from_first_available()# from_serial_number(self.serial_number) 
@@ -221,7 +220,7 @@ class OceanOpticsSpectrometer(RemoteObject):
                                 value=_current_intensity, 
                                 timestamp=timestamp
                             )
-                            self.data_measured_event.push(self.last_intensity)
+                            self.intensity_measurement_event.push(self.last_intensity)
                             self.state_machine.current_state = self.states.MEASURING
                         else:
                             self.logger.warn('trigger delayed or no trigger or erroneous data - completely black')
