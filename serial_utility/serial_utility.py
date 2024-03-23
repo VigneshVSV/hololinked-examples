@@ -2,7 +2,8 @@ import logging
 import serial as PS
 from enum import Enum
 from threading import RLock
-from hololinked.server import RemoteObject, StateMachine, post, HTTPServer, remote_method
+from hololinked.server import RemoteObject, StateMachine, HTTPServer, remote_method
+from hololinked.server.http_methods import post
 from hololinked.server.remote_parameters import Number, Selector, String, Selector, Boolean
 
 

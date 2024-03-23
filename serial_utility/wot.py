@@ -1,6 +1,6 @@
 import logging
 import serial as PS
-from enum import Enum
+from enum import StrEnum
 from threading import RLock
 
 from hololinked.server import StateMachine, HTTPServer
@@ -124,7 +124,11 @@ class SerialCommunication(Thing):
             except:
                 pass
       
-    states = Enum("states", "DISCONNECTED ON COMMUNICATING")
+    class states(StrEnum):
+        DISCONNECTED = "DISCONNECTED"
+        ON = "ON"
+        COMMUNICATING = "COMMUNICATING"
+        
     state_machine = StateMachine(
         states=states,
         initial_state=states.DISCONNECTED,

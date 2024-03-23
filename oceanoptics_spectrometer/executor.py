@@ -9,9 +9,9 @@ def start_http_server():
     ssl_context.load_cert_chain('assets\\security\\certificate.pem',
                         keyfile = 'assets\\security\\key.pem')
 
-    H = HTTPServer(consumers=['spectrometer/ocean-optics/USB2000-plus'], port=8083, ssl_context=ssl_context, 
+    H = HTTPServer(['spectrometer/ocean-optics/USB2000-plus'], port=8083, ssl_context=ssl_context, 
                       log_level=logging.DEBUG)  
-    H.start()
+    H.listen()
 
 
 if __name__ == "__main__":
@@ -23,6 +23,7 @@ if __name__ == "__main__":
         instance_name='spectrometer/ocean-optics/USB2000-plus',
         serial_number='USB2+H15897',
         log_level=logging.DEBUG,
-        trigger_mode=0
+        rpc_serializer='pickle',
+        # trigger_mode=0
     )
     O.run()

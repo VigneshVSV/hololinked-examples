@@ -1,15 +1,22 @@
 import threading
 import datetime
 import numpy
-from enum import Enum
+from enum import StrEnum
 from seabreeze.spectrometers import Spectrometer
 
-from hololinked.server import RemoteObject, StateMachine, put, post, get, Event, patch, remote_method
+from hololinked.server import RemoteObject, StateMachine,  Event, remote_method
 from hololinked.server.remote_parameters import (String, Integer, Number, Selector, ClassSelector, Integer, 
                         Boolean, TypedList, Selector)
-
+from hololinked.server.http_methods import put, post, get, patch
 from data import Intensity
 
+
+class States(StrEnum):
+    DISCONNECTED = "DISCONNECTED"
+    ON = "ON"
+    FAULT = "FAULT"
+    MEASURING = "MEASURING"
+    ALARM = "ALARM"
 
 
 class OceanOpticsSpectrometer(RemoteObject):
@@ -20,7 +27,7 @@ class OceanOpticsSpectrometer(RemoteObject):
     to measure spectrum once. 
     """
 
-    states = Enum('states', 'DISCONNECTED ON FAULT MEASURING ALARM')
+    states = States
 
     serial_number = String(default=None, allow_None=True, URL_path='/serial-number', 
                             doc="serial number of the spectrometer to connect/or connected")
@@ -106,6 +113,7 @@ class OceanOpticsSpectrometer(RemoteObject):
         
     @integration_time_millisec.setter 
     def apply_integration_time_ms(self, value):
+        print("value", value)
         self.device.integration_time_micros(int(value*1000))
         self._integration_time_ms = int(value) 
         self._integration_time_us = int(value)*1000
@@ -140,21 +148,21 @@ class OceanOpticsSpectrometer(RemoteObject):
             raise TypeError("higher bound of integration type not a number or None")                                          
         self.parameters["integration_time"].bounds = value 
 
-    @get('/acquisition/settings')
-    def _get_acquisition_settings(self):
-        return {
-            'integration_time_milliseconds' : self.integration_time_millisec,
-            'trigger_mode' : self.trigger_mode,
-            'background_correction' : self.background_correction,
-            'non_linearity_correction' : self.nonlinearity_correction
-        }
+    # @get('/acquisition/settings')
+    # def _get_acquisition_settings(self):
+    #     return {
+    #         'integration_time_milliseconds' : self.integration_time_millisec,
+    #         'trigger_mode' : self.trigger_mode,
+    #         'background_correction' : self.background_correction,
+    #         'non_linearity_correction' : self.nonlinearity_correction
+    #     }
 
-    @remote_method('/acquisition/settings', http_method=['POST', 'PATCH'])
-    def _set_acquisition_settings(self, **settings):
-        assert settings.keys() in ['integration_time_millisec', 'integration_time_microsec',
-                            'background_correction', 'nonlinearity_correction'], "not all supplied values are acquisition settings"
-        for key, value in settings.items():
-            setattr(self, key, value)
+    # @remote_method('/acquisition/settings', http_method=['PATCH'])
+    # def _set_acquisition_settings(self, **settings):
+    #     assert settings.keys() in ['integration_time_millisec', 'integration_time_microsec',
+    #                         'background_correction', 'nonlinearity_correction'], "not all supplied values are acquisition settings"
+    #     for key, value in settings.items():
+    #         setattr(self, key, value)
     
     @post('/acquisition/start')
     def start_acquisition(self):
