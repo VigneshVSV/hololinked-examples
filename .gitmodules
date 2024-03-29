@@ -1,3 +1,6 @@
 [submodule "serial-utility"]
 	path = serial-utility
 	url = https://gitlab.com/hololinked-examples/serial-utility.git
+[submodule "oceanoptics-spectrometer"]
+	path = oceanoptics-spectrometer
+	url = https://gitlab.com/hololinked-examples/oceanoptics-spectrometer.git
