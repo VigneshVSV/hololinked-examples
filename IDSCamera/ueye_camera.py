@@ -21,7 +21,7 @@ class UEyeCamera(RemoteObject):
 
     states = Enum('states', 'ON FAULT CONNECTION_ERROR CAPTURE DISCONNECTED ALARM')
 
-    camera_id = Integer(default=0, bounds=(0,255), URL_path='/id')
+    device_id = Integer(default=0, bounds=(0,255), URL_path='/id')
 
     sensor_info = RemoteParameter(readonly=True, default=None, allow_None=True, URL_path='/sensor/info')
 
@@ -35,8 +35,8 @@ class UEyeCamera(RemoteObject):
     image = Image(URL_path='/video')
 
    
-    def __init__(self, camera_id : int, **kwargs):
-        super().__init__(camera_id=camera_id, **kwargs)
+    def __init__(self, device_id : int, **kwargs):
+        super().__init__(device_id=device_id, **kwargs)
         self._rectAOI = ueye.IS_RECT()
         self._image_memory = ueye.c_mem_p()
         self._mem_id = ueye.INT()
@@ -45,12 +45,12 @@ class UEyeCamera(RemoteObject):
 
     @post('/connect')
     def connect(self):
-        self.device = ueye.HIDS(self.camera_id) 
+        self.device = ueye.HIDS(self.device_id) 
         # Starts the driver and establishes the connection to the camera
         ret = ueye.is_InitCamera(self.device, None)
         if ret != ueye.IS_SUCCESS:
             self.state_machine.current_state = self.states.CONNECTION_ERROR
-            raise UEyeError(ret, f"could not connect to camera with camera id {self.camera_id}")
+            raise UEyeError(ret, f"could not connect to camera with camera id {self.device_id}")
 
         ret = ueye.is_ResetToDefault(self.device)
         if ret != ueye.IS_SUCCESS:

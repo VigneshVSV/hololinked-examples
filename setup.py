@@ -1,8 +1,8 @@
 import setuptools
 
 long_description="""
-A ZMQ-based RPC tool-kit with built-in HTTP support for instrument control/data acquisition
-or controlling generic python objects.
+hololinked is a ZMQ-based RPC tool-kit with built-in HTTP support for instrument control/data acquisition
+or controlling generic python objects. This repository is a list of examples.
 """
 
 setuptools.setup(
@@ -14,7 +14,7 @@ setuptools.setup(
     long_description=long_description,
     long_description_content_type="text/markdown",
     url="",
-    packages=['oceanoptics_spectrometer'],
+    packages=['oceanoptics_spectrometer', 'serial-utility/serial_utility'],
     classifiers=[
         "Programming Language :: Python :: 3",
         "Operating System :: OS Independent",

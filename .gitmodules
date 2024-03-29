@@ -1,0 +1,3 @@
+[submodule "serial-utility"]
+	path = serial-utility
+	url = https://gitlab.com/hololinked-examples/serial-utility.git
