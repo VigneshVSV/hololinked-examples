@@ -1,6 +1,9 @@
 [submodule "serial-utility"]
-	path = serial-utility
+	path = server-examples/serial-utility
 	url = https://gitlab.com/hololinked-examples/serial-utility.git
 [submodule "oceanoptics-spectrometer"]
-	path = oceanoptics-spectrometer
+	path = server-examples/oceanoptics-spectrometer
 	url = https://gitlab.com/hololinked-examples/oceanoptics-spectrometer.git
+[submodule "client-examples/node-wot/spectrometer-smartphone"]
+	path = client-examples/node-wot/spectrometer-smartphone
+	url = https://gitlab.com/node-clients/spectrometer-smartphone.git
