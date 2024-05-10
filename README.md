@@ -6,8 +6,8 @@ Contains set of examples for `hololinked` repository, sorted into folders:
 
 | Folder                    | Description |
 | --------                  | ----------- |
-| oceanoptics-spectrometer | spectrometer from Ocean Optics, Inc. [gitlab <i class="fa fa-external-link" aria-hidden="true"></i>](https://gitlab.com/hololinked-examples/oceanoptics-spectrometer) |
-| serial-utility            | utility for devices employing serial port communication [gitlab <i class="fa fa-external-link" aria-hidden="true"></i>](https://gitlab.com/hololinked-examples/serial-utility)  |
+| oceanoptics-spectrometer | spectrometer from Ocean Optics, Inc. [gitlab](https://gitlab.com/hololinked-examples/oceanoptics-spectrometer) :link: |
+| serial-utility            | utility for devices employing serial port communication [gitlab](https://gitlab.com/hololinked-examples/serial-utility) :link: |
 <!-- | gentec_maestro            | laser pulse energy meter from Gentec Electro-Optics (https://www.gentec-eo.com/products/maestro) | -->
 
 
@@ -15,8 +15,8 @@ Contains set of examples for `hololinked` repository, sorted into folders:
 
 | Folder                    | Description |
 | --------                  | ----------- |
-| oceanoptics-spectrometer desktop app | react app that can be bundled into electron [gitlab <i class="fa fa-external-link" aria-hidden="true"></i>](https://gitlab.com/desktop-clients/oceanoptics-spectrometer-desktop-app) |
-| oceanoptics-spectrometer smartphone app |[node-wot](https://github.com/eclipse-thingweb/node-wot) based client + svelte [gitlab <i class="fa fa-external-link" aria-hidden="true"></i>](https://gitlab.com/node-clients/oceanoptics-spectrometer-smartphone-app.git)  |
+| oceanoptics-spectrometer desktop app | react app that can be bundled into electron [gitlab](https://gitlab.com/desktop-clients/oceanoptics-spectrometer-desktop-app) :link: |
+| oceanoptics-spectrometer smartphone app |[node-wot](https://github.com/eclipse-thingweb/node-wot) based client + svelte [gitlab](https://gitlab.com/node-clients/oceanoptics-spectrometer-smartphone-app.git) :link: |
 
 <br/>
 
