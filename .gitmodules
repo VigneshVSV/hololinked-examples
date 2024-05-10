@@ -7,3 +7,6 @@
 [submodule "client-examples/node-wot/spectrometer-smartphone"]
 	path = client-examples/node-wot/spectrometer-smartphone
 	url = https://gitlab.com/node-clients/spectrometer-smartphone.git
+[submodule "client-examples/oceanoptics-spectrometer-desktop-app"]
+	path = client-examples/oceanoptics-spectrometer-desktop-app
+	url = https://gitlab.com/desktop-clients/oceanoptics-spectrometer-desktop-app.git
