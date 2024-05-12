@@ -10,8 +10,10 @@ upcoming examples.txt
 energy_meter_devices.py
 server-examples/picoscope/*
 server-examples/IDSCamera/*
+server-examples/host/*
 *.json
 assets/
+
 
 # vs-code 
 .vscode/
