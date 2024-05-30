@@ -10,3 +10,6 @@
 [submodule "client-examples/oceanoptics-spectrometer-desktop-app"]
 	path = client-examples/oceanoptics-spectrometer-desktop-app
 	url = https://gitlab.com/desktop-clients/oceanoptics-spectrometer-desktop-app.git
+[submodule "server-examples/phymotion-controllers"]
+	path = server-examples/phymotion-controllers
+	url = https://gitlab.com/hololinked-examples/phymotion-controllers.git
