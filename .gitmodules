@@ -13,3 +13,9 @@
 [submodule "server-examples/phymotion-controllers"]
 	path = server-examples/phymotion-controllers
 	url = https://gitlab.com/hololinked-examples/phymotion-controllers.git
+[submodule "client-examples/node-wot/--force"]
+	path = client-examples/node-wot/--force
+	url = https://gitlab.com/node-clients/phymotion-controllers-app.git
+[submodule "client-examples/node-wot/phymotion-controllers-app"]
+	path = client-examples/node-wot/phymotion-controllers-app
+	url = https://gitlab.com/node-clients/phymotion-controllers-app.git
