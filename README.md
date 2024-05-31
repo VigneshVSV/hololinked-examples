@@ -18,6 +18,8 @@ Contains set of examples for `hololinked` repository, sorted into folders:
 | --------                  | ----------- |
 | oceanoptics-spectrometer desktop app | react app that can be bundled into electron [gitlab](https://gitlab.com/desktop-clients/oceanoptics-spectrometer-desktop-app) :link: |
 | oceanoptics-spectrometer smartphone app |[node-wot](https://github.com/eclipse-thingweb/node-wot) based client + svelte [gitlab](https://gitlab.com/node-clients/oceanoptics-spectrometer-smartphone-app.git) :link: |
+| phymotion-controllers smartphone app |[node-wot](https://github.com/eclipse-thingweb/node-wot) based client + react [gitlab](https://gitlab.com/node-clients/phymotion-controllers-app.git) :link: |
+
 
 <br/>
 
