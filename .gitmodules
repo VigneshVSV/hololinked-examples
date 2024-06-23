@@ -16,3 +16,6 @@
 [submodule "client-examples/node-wot/phymotion-controllers-app"]
 	path = client-examples/node-wot/phymotion-controllers-app
 	url = https://gitlab.com/node-clients/phymotion-controllers-app.git
+[submodule "server-examples/gentec-optical-energy-meters"]
+	path = server-examples/gentec-optical-energy-meters
+	url = https://gitlab.com/hololinked-examples/gentec-optical-energy-meters.git
