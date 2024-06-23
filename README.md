@@ -6,7 +6,7 @@ Contains set of examples for `hololinked` repository, sorted into git subfolders
 
 | Folder                   | Description |
 | ------------------------ | ----------- |
-| gentec_maestro (contains beginner level code) | laser pulse energy meter from Gentec Electro-Optics (https://www.gentec-eo.com/products/maestro) |
+| gentec_maestro (contains beginner level code) | laser pulse energy meter from Gentec Electro-Optics [gitlab](https://gitlab.com/hololinked-examples/gentec-optical-energy-meters) :link: |
 | oceanoptics-spectrometer | spectrometer from Ocean Optics, Inc. [gitlab](https://gitlab.com/hololinked-examples/oceanoptics-spectrometer) :link: |
 | serial-utility           | utility for devices employing serial port communication [gitlab](https://gitlab.com/hololinked-examples/serial-utility) :link: |
 | phymotion                | Phytron phymotion controllers (currently supports only a subset) [gitlab](https://gitlab.com/hololinked-examples/phymotion-controllers) :link: |
