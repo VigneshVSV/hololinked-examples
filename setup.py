@@ -14,7 +14,10 @@ setuptools.setup(
     long_description=long_description,
     long_description_content_type="text/markdown",
     url="",
-    packages=['oceanoptics_spectrometer', 'serial-utility/serial_utility'],
+    packages=[
+        'oceanoptics-spectrometer/oceanoptics_spectrometer', 
+        'serial-utility/serial_utility'
+    ],
     classifiers=[
         "Programming Language :: Python :: 3",
         "Operating System :: OS Independent",

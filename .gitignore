@@ -13,7 +13,7 @@ server-examples/IDSCamera/*
 server-examples/host/*
 *.json
 assets/
-
+git-status*
 
 # vs-code 
 .vscode/

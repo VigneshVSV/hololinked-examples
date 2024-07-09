@@ -1,16 +1,15 @@
 # hololinked EXAMPLES
 
-Contains set of examples for `hololinked` repository, sorted into folders:
+Contains set of examples for `hololinked` repository, sorted into git subfolders:
 
 ##### SERVERS
 
 | Folder                   | Description |
 | ------------------------ | ----------- |
+| gentec_maestro (contains beginner level code) | laser pulse energy meter from Gentec Electro-Optics [gitlab](https://gitlab.com/hololinked-examples/gentec-optical-energy-meters) :link: |
 | oceanoptics-spectrometer | spectrometer from Ocean Optics, Inc. [gitlab](https://gitlab.com/hololinked-examples/oceanoptics-spectrometer) :link: |
 | serial-utility           | utility for devices employing serial port communication [gitlab](https://gitlab.com/hololinked-examples/serial-utility) :link: |
 | phymotion                | Phytron phymotion controllers (currently supports only a subset) [gitlab](https://gitlab.com/hololinked-examples/phymotion-controllers) :link: |
-
-<!-- | gentec_maestro            | laser pulse energy meter from Gentec Electro-Optics (https://www.gentec-eo.com/products/maestro) | -->
 
 ##### CLIENTS
 
@@ -23,7 +22,3 @@ Contains set of examples for `hololinked` repository, sorted into folders:
 
 <br/>
 
-<!--- 
-    comment: See step by step tutorials for each of the devices here : (will be filled)
-    For ReactJS dashboards for each device, see examples here : (will be filled)
---->
