@@ -19,3 +19,6 @@
 [submodule "server-examples/gentec-optical-energy-meters"]
 	path = server-examples/gentec-optical-energy-meters
 	url = https://gitlab.com/hololinked-examples/gentec-optical-energy-meters.git
+[submodule "server-examples/diy-arduino-hardware-trigger-reader"]
+	path = server-examples/diy-arduino-hardware-trigger-reader
+	url = https://gitlab.com/hololinked-examples/diy-arduino-hardware-trigger-reader.git

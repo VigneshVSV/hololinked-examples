@@ -11,6 +11,13 @@ Contains set of examples for `hololinked` repository, sorted into git subfolders
 | serial-utility           | utility for devices employing serial port communication [gitlab](https://gitlab.com/hololinked-examples/serial-utility) :link: |
 | phymotion                | Phytron phymotion controllers (currently supports only a subset) [gitlab](https://gitlab.com/hololinked-examples/phymotion-controllers) :link: |
 
+###### DIY
+
+| Folder                   | Description |
+| ------------------------ | ----------- |
+| arduino low speed trigger counter | [gitlab](https://gitlab.com/hololinked-examples/diy-arduino-hardware-trigger-reader) :link: |
+
+
 ##### CLIENTS
 
 | Folder                    | Description |
