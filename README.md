@@ -2,7 +2,7 @@
 
 Contains set of examples for `hololinked` repository, sorted into git subfolders:
 
-#### SERVERS
+### SERVERS
 
 | Folder                   | Description |
 | ------------------------ | ----------- |
@@ -18,7 +18,7 @@ Contains set of examples for `hololinked` repository, sorted into git subfolders
 | arduino low speed trigger counter | [gitlab](https://gitlab.com/hololinked-examples/diy-arduino-hardware-trigger-reader) :link: |
 
 
-#### CLIENTS
+### CLIENTS
 
 | Folder                    | Description |
 | --------                  | ----------- |
