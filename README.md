@@ -19,7 +19,7 @@ may point to something else.
 | Folder                   | Description |
 | ------------------------ | ----------- |
 | arduino low speed trigger counter | counts a low frequency pulse and raises a software event at rising edge [gitlab](https://gitlab.com/hololinked-examples/diy-arduino-hardware-trigger-reader) :link: |
-| raspberry pi adafruit servo controller | servo controller [gitlab] (https://gitlab.com/hololinked-examples/diy-raspberry-pi-servo-motor) :link: |
+| raspberry pi adafruit servo controller | servo controller [gitlab](https://gitlab.com/hololinked-examples/diy-raspberry-pi-servo-motor) :link: |
 
 ### CLIENTS
 
