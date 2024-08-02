@@ -1,6 +1,9 @@
 # hololinked EXAMPLES
 
-Contains set of examples for `hololinked` repository, sorted into git subfolders:
+Contains set of examples for `hololinked` repository, sorted into git subfolders.
+
+If you came here from the server implementation repository, select master branch manually as the latest commit there 
+may point to something else.
 
 ### SERVERS
 
@@ -26,6 +29,7 @@ Contains set of examples for `hololinked` repository, sorted into git subfolders
 | oceanoptics-spectrometer smartphone app |[node-wot](https://github.com/eclipse-thingweb/node-wot) based client + svelte [gitlab](https://gitlab.com/node-clients/oceanoptics-spectrometer-smartphone-app.git) :link: |
 | phymotion-controllers smartphone app |[node-wot](https://github.com/eclipse-thingweb/node-wot) based client + react [gitlab](https://gitlab.com/node-clients/phymotion-controllers-app.git) :link: |
 
-
 <br/>
+
+
 
