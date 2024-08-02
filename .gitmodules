@@ -22,3 +22,6 @@
 [submodule "server-examples/diy-arduino-hardware-trigger-reader"]
 	path = server-examples/diy-arduino-hardware-trigger-reader
 	url = https://gitlab.com/hololinked-examples/diy-arduino-hardware-trigger-reader.git
+[submodule "server-examples/diy-raspberry-pi-servo-motor"]
+	path = server-examples/diy-raspberry-pi-servo-motor
+	url = https://gitlab.com/hololinked-examples/diy-raspberry-pi-servo-motor
