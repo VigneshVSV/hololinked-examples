@@ -25,3 +25,6 @@
 [submodule "server-examples/diy-raspberry-pi-servo-motor"]
 	path = server-examples/diy-raspberry-pi-servo-motor
 	url = https://gitlab.com/hololinked-examples/diy-raspberry-pi-servo-motor
+[submodule "server-examples/ids-ueye-camera"]
+	path = server-examples/ids-ueye-camera
+	url = https://gitlab.com/hololinked-examples/ids-ueye-camera.git
