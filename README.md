@@ -24,6 +24,9 @@ may point to something else.
 
 ### CLIENTS
 
+
+HTTP apps
+
 | Folder                    | Description |
 | --------                  | ----------- |
 | oceanoptics-spectrometer desktop app | react app that can be bundled into electron [gitlab](https://gitlab.com/desktop-clients/oceanoptics-spectrometer-desktop-app) :link: |
