@@ -24,12 +24,24 @@ may point to something else.
 
 ### CLIENTS
 
+PyQt Apps & scripting
 
-HTTP apps
+| Folder                | Description |
+| --------              | ----------- |
+| Phymotion Controllers | [gitlab](https://gitlab.com/hololinked-examples/phymotion-controllers/-/tree/develop/examples/pyqt_example?ref_type=heads) :link: |
+| UEye Camera | [gitlab](https://gitlab.com/hololinked-examples/ids-ueye-camera/-/tree/main/examples/pyqt_example?ref_type=heads) :link: |
+| Spectrometer | [gitlab](https://gitlab.com/hololinked-examples/oceanoptics-spectrometer/-/blob/main/oceanoptics_spectrometer/clients/client.py?ref_type=heads) :link: |
 
-| Folder                    | Description |
-| --------                  | ----------- |
-| oceanoptics-spectrometer desktop app | react app that can be bundled into electron [gitlab](https://gitlab.com/desktop-clients/oceanoptics-spectrometer-desktop-app) :link: |
+Panel Webdashboard
+
+| Folder         | Description |
+| --------       | ----------- |
+| Gentec Maestro | [gitlab](https://gitlab.com/hololinked-examples/gentec-optical-energy-meters/-/tree/simple/examples/panel?ref_type=heads) :link: |
+
+Web browser apps
+
+| Folder   | Description |
+| -------- | ----------- |
 | oceanoptics-spectrometer smartphone app |[node-wot](https://github.com/eclipse-thingweb/node-wot) based client + svelte [gitlab](https://gitlab.com/node-clients/oceanoptics-spectrometer-smartphone-app.git) :link: |
 | phymotion-controllers smartphone app |[node-wot](https://github.com/eclipse-thingweb/node-wot) based client + react [gitlab](https://gitlab.com/node-clients/phymotion-controllers-app.git) :link: |
 
