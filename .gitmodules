@@ -31,3 +31,6 @@
 [submodule "client-examples/node-wot/ids-camera-app"]
 	path = client-examples/node-wot/ids-camera-app
 	url = https://gitlab.com/node-clients/ids-camera-app.git
+[submodule "server-examples/picoscope"]
+	path = server-examples/picoscope
+	url = https://gitlab.com/hololinked-examples/picoscope
